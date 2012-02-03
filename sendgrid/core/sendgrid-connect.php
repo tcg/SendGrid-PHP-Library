@@ -19,14 +19,14 @@
  *
  *
  * @author Alon Ben David - CoolGeex.com
- * 
+ *
  * All the methods returns an array of data or one string / int
  * If false returned you can run getLastResponseError() to see the error information
  * If error information == NULL then no error accrued (like deleting a record returns 0 records deleted if no record found)
- * 
+ *
  * CHECK sample.php for list of methods, variables and code samples
- * 
-*/
+ *
+ */
 
 class sendgridConnect {
 
@@ -93,9 +93,9 @@ class sendgridConnect {
 		$postData['api_user'] = $this->authUser;
 		$postData['api_key']  = $this->authKey;
 		
-		$this->debugCall('DEBUG - Post Data: ' , $postData);
+		$this->debugCall('DEBUG - Post Data: ', $postData);
 
-		$url.= ".json";
+		$url .= ".json";
 
 		$jsonUrl = $this->apiEndpoint . '/' . $url;
 		// Generate curl request
@@ -107,23 +107,23 @@ class sendgridConnect {
 		if(!$this->_curl_ssl_verify) curl_setopt($session, CURLOPT_SSL_VERIFYPEER, false);
 
 		// Tell curl to use HTTP POST
-		curl_setopt ( $session, CURLOPT_CUSTOMREQUEST, strtoupper ( $method ) );
+		curl_setopt ($session, CURLOPT_CUSTOMREQUEST, strtoupper($method));
 		// Tell curl that this is the body of the POST
 		curl_setopt ($session, CURLOPT_POSTFIELDS, $postData);
 		// Tell curl not to return headers, but do return the response
 		curl_setopt($session, CURLOPT_HEADER, false);
-		curl_setopt ( $session, CURLOPT_USERAGENT, self::USER_AGENT );
-		curl_setopt ( $session, CURLOPT_ENCODING, 'gzip,deflate' );
-		curl_setopt ( $session, CURLOPT_TIMEOUT, self::TIMEOUT );
+		curl_setopt($session, CURLOPT_USERAGENT, self::USER_AGENT);
+		curl_setopt($session, CURLOPT_ENCODING, 'gzip,deflate');
+		curl_setopt($session, CURLOPT_TIMEOUT, self::TIMEOUT);
 		curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
 
-		// obtain response
+		// Obtain response
 		$jsonResponse = curl_exec($session);
 		curl_close($session);
 		
 		$this->debugCall('DEBUG - Json Response: ' , $jsonResponse);
 		
-		$results  = json_decode ( $jsonResponse, TRUE );
+		$results = json_decode($jsonResponse, TRUE);
 		
 		$this->debugCall('DEBUG - Results: ' , $results);
 		
@@ -136,24 +136,29 @@ class sendgridConnect {
 	/**
 	 * Makes a print out of every step of makeApiCall for DEBUGGING
 	 *
-	 * @param string $text The text to show before the actual debug information EX: DEBUG - Results: 
+	 * @param string $text The text to show before the actual debug information EX: DEBUG - Results:
 	 * @param string / array $data the actual debug data to show
 	 */
-	private function debugCall($text = 'DEBUG : ' , $data){
-		if(!$this->_debug) return;
+	private function debugCall($text = 'DEBUG : ', $data) {
+		if(!$this->_debug) { return; }
 		
 		$newLine = isset($_SERVER['HTTP_USER_AGENT']) ? "<br/>" : "\n";
 			
 		echo $newLine . $text;
-		//print_r($data);
-		if(is_array($data)){
-			foreach($data as $name=>$value){
-				if($name == 'api_user' || $name == 'api_key')continue;
+		if (is_array($data)) {
+			foreach($data as $name => $value) {
+				if ($name == 'api_user' || $name == 'api_key') {
+					continue;
+				}
 				echo $newLine . $name . ' => ' . $value;
-			}echo $newLine;
-		}else echo $data . $newLine;
+			}
+			echo $newLine;
+		} else {
+			echo $data . $newLine;
+		}
 	}
 	
+
 	public function getLastResponseError() {
 		return $this->lastResponseError;
 	}

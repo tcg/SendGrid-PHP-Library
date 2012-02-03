@@ -32,12 +32,8 @@ require_once "core/sendgrid-connect.php";
 
 class sendgridNewsletter extends sendgridConnect {
 
-    //public function __construct() {
-    //    parent::__construct();
-    //}
-
 	/**
-	 * Create a new Newsletter...
+	 * Create a new Newsletter.
 	 * @param string $identity - The Identity that will be used for the Newsletter being created.
  	 * @param string $name - The name that will be used for the Newsletter being created.
 	 * @param string $subject - The subject that will be used for the Newsletter being created.
@@ -59,7 +55,7 @@ class sendgridNewsletter extends sendgridConnect {
 	}
 
 	/**
-	 * Edit an existing Newsletter...
+	 * Edit an existing Newsletter.
 	 * @param string $identity - The new Identity for the Newsletter being edited.
  	 * @param string $name	- The name of the Newsletter being updated.
 	 * @param string $newname - The new name for the Newsletter being edited.
@@ -79,7 +75,7 @@ class sendgridNewsletter extends sendgridConnect {
 			'html'      => $html,
 		  );
 		
-		return $this->makeApiCall ( $url , $postData );
+		return $this->makeApiCall($url, $postData);
 	}
 
 
@@ -92,7 +88,7 @@ class sendgridNewsletter extends sendgridConnect {
 		
 		$postData = array(
 			'name'	=> $name,
-		  );
+		);
 		
 		return $this->makeApiCall ( $url , $postData );
 	}
